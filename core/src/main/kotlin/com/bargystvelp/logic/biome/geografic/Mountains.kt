@@ -15,10 +15,7 @@ class Mountains (
     width = width,
     height = height
 ) {
-    override fun createBiome(
-        width: Int,
-        height: Int
-    ): Array<Array<Cell>> {
+    override fun createBiome(): Array<Array<Cell>> {
         val ridge = Ridge(xFrom = 0, yFrom = height / 3, xTo = width, yTo = height * 2 / 3)
 
         return Array(width) { x ->

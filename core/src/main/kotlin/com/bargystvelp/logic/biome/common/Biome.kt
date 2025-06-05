@@ -6,13 +6,10 @@ abstract class Biome(
     open val width: Int,
     open val height: Int,
 ) {
-    val cells: Array<Array<Cell>>
-
-    init {
-        cells = createBiome(width, height)
-    }
+    val cells: Array<Array<Cell>> by lazy { createBiome() }
 
     fun render(callback: (Cell) -> Unit) {
+        println("render cells: $cells")
         for (x in 0 until width) {
             for (y in 0 until height) {
                 callback(cells[x][y])
@@ -20,5 +17,5 @@ abstract class Biome(
         }
     }
 
-    protected abstract fun createBiome(width: Int, height: Int): Array<Array<Cell>>
+    abstract fun createBiome(): Array<Array<Cell>>
 }
