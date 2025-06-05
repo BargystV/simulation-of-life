@@ -13,6 +13,8 @@ class Main : ApplicationAdapter() {
     private lateinit var biome: Biome
 
     override fun create() {
+        Logger.info("")
+
         // Инициализация биома с размерами экрана
         biome = Ecosystem(width = Gdx.graphics.width, height = Gdx.graphics.height)
 
@@ -48,5 +50,7 @@ class Main : ApplicationAdapter() {
     // Очистка ресурсов
     override fun dispose() {
         shapeRenderer.dispose()
+
+        Logger.info("")
     }
 }
