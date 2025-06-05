@@ -1,16 +1,6 @@
-package com.bargystvelp.logic.biome
+package com.bargystvelp.logic.biome.common
 
-import com.bargystvelp.OpenSimplexNoise
-import com.bargystvelp.logic.cell.Cell
-import com.bargystvelp.logic.cell.Height
-import com.bargystvelp.logic.cell.Stone
-import com.bargystvelp.logic.cell.Water
-import com.bargystvelp.logic.test.Ridge
-import kotlin.math.exp
-import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
-import kotlin.random.Random
+import com.bargystvelp.logic.cell.common.Cell
 
 abstract class Biome(
     open val width: Int,

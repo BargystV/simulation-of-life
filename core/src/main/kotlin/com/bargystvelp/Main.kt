@@ -4,8 +4,8 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.bargystvelp.logic.biome.Biome
-import com.bargystvelp.logic.biome.Ecosystem
+import com.bargystvelp.logic.biome.common.Biome
+import com.bargystvelp.logic.biome.ecosystem.Ecosystem
 
 class Main : ApplicationAdapter() {
     private lateinit var shapeRenderer: ShapeRenderer

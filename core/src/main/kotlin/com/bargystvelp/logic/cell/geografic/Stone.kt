@@ -1,4 +1,4 @@
-package com.bargystvelp.logic.cell
+package com.bargystvelp.logic.cell.geografic
 
 import com.badlogic.gdx.graphics.Color
 import com.bargystvelp.constant.Color.STONE_Z0
@@ -11,6 +11,8 @@ import com.bargystvelp.constant.Color.STONE_Z6
 import com.bargystvelp.constant.Color.STONE_Z7
 import com.bargystvelp.constant.Color.STONE_Z8
 import com.bargystvelp.constant.Color.STONE_Z9
+import com.bargystvelp.logic.cell.common.Cell
+import com.bargystvelp.logic.cell.common.Height
 
 data class Stone(
     override val x: Int,

@@ -1,7 +1,9 @@
-package com.bargystvelp.logic.cell
+package com.bargystvelp.logic.cell.geografic
 
 import com.badlogic.gdx.graphics.Color
 import com.bargystvelp.constant.Color.SOIL
+import com.bargystvelp.logic.cell.common.Cell
+import com.bargystvelp.logic.cell.common.Height
 
 data class Soil(
     override val x: Int,

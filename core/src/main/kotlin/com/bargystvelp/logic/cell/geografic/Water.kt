@@ -1,4 +1,4 @@
-package com.bargystvelp.logic.cell
+package com.bargystvelp.logic.cell.geografic
 
 import com.badlogic.gdx.graphics.Color
 import com.bargystvelp.constant.Color.WATER_Z0
@@ -11,6 +11,8 @@ import com.bargystvelp.constant.Color.WATER_Z6
 import com.bargystvelp.constant.Color.WATER_Z7
 import com.bargystvelp.constant.Color.WATER_Z8
 import com.bargystvelp.constant.Color.WATER_Z9
+import com.bargystvelp.logic.cell.common.Cell
+import com.bargystvelp.logic.cell.common.Height
 
 data class Water(
     override val x: Int,

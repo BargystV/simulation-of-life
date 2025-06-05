@@ -1,6 +1,6 @@
 package com.bargystvelp.logic.test
 
-import com.bargystvelp.logic.cell.Height
+import com.bargystvelp.logic.cell.common.Height
 import kotlin.math.exp
 import kotlin.math.pow
 import kotlin.math.sqrt

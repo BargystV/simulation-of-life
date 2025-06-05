@@ -1,9 +1,10 @@
-package com.bargystvelp.logic.biome
+package com.bargystvelp.logic.biome.geografic
 
 import com.bargystvelp.OpenSimplexNoise
-import com.bargystvelp.logic.cell.Cell
-import com.bargystvelp.logic.cell.Height
-import com.bargystvelp.logic.cell.Stone
+import com.bargystvelp.logic.biome.common.Biome
+import com.bargystvelp.logic.cell.common.Cell
+import com.bargystvelp.logic.cell.common.Height
+import com.bargystvelp.logic.cell.geografic.Stone
 import com.bargystvelp.logic.test.Ridge
 import kotlin.math.roundToInt
 

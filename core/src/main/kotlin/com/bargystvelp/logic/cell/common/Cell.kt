@@ -1,4 +1,4 @@
-package com.bargystvelp.logic.cell
+package com.bargystvelp.logic.cell.common
 
 import com.badlogic.gdx.graphics.Color
 
