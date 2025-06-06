@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.bargystvelp.logic.biome.common.Biome
 import com.bargystvelp.logic.biome.ecosystem.Ecosystem
+import com.bargystvelp.logic.cell.common.Position
 import com.bargystvelp.logic.cell.common.Size
 
 class Main : ApplicationAdapter() {
@@ -40,9 +41,12 @@ class Main : ApplicationAdapter() {
         // Отрисовка клеток биома
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
 
-        biome.render { cell ->
-            shapeRenderer.color = cell.color
-            shapeRenderer.rect(cell.position.x.toFloat(), cell.position.y.toFloat(), 1f, 1f)
+        val cells = biome.render()
+        for (x in 0 until biome.size.width) {
+            for (y in 0 until biome.size.height) {
+                shapeRenderer.color = cells[x][y].color
+                shapeRenderer.rect(x.toFloat(), y.toFloat(), 1f, 1f)
+            }
         }
 
         shapeRenderer.end()

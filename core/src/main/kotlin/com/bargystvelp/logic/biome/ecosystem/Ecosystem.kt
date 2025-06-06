@@ -10,8 +10,7 @@ data class Ecosystem(override val size: Size) : Biome(size = size) {
     override fun create(): Array<Array<Cell>> {
         return Array(size.width) { x ->
             Array(size.height) { y ->
-                val position = Position(x = x, y = y)
-                Plant.trySpawn(position = position)
+                Plant.trySpawn(position = Position(x = x, y = y))
             }
         }
     }

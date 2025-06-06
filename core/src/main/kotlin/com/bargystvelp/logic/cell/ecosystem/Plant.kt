@@ -6,19 +6,23 @@ import com.bargystvelp.logic.cell.common.Position
 import kotlin.random.Random
 
 data class Plant(
-    override val position: Position,
+    override val positions: MutableList<Position>,
 ) : Cell(
-    position = position,
+    positions = positions,
     color = PLANT
 ) {
+    override fun render(position: Position, cells: Array<Array<Cell>>) {
+
+    }
+
     companion object {
         private const val SPAWN_CHANCE = 0.00001 // 0.001% шанс
 
         fun trySpawn(position: Position): Cell {
             return if (Random.nextDouble() < SPAWN_CHANCE) {
-                Plant(position)
+                Plant(mutableListOf(position))
             } else {
-                Void(position)
+                Void(mutableListOf(position))
             }
         }
     }
