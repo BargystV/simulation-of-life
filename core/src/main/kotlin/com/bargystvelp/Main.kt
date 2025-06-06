@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.bargystvelp.logic.biome.common.Biome
 import com.bargystvelp.logic.biome.ecosystem.Ecosystem
-import com.bargystvelp.logic.cell.common.Position
 import com.bargystvelp.logic.cell.common.Size
 
 class Main : ApplicationAdapter() {

@@ -16,7 +16,7 @@ abstract class Biome(
             }
         }
 
-        return cells;
+        return cells
     }
 
 
