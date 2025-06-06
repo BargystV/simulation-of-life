@@ -1,19 +1,27 @@
 package com.bargystvelp.logic.cell.ecosystem
 
-import com.badlogic.gdx.graphics.Color
 import com.bargystvelp.constant.Color.PLANT
-import com.bargystvelp.logic.cell.common.Cell
-import com.bargystvelp.logic.cell.common.Height
+import com.bargystvelp.logic.cell.common.Entity
+import com.bargystvelp.logic.cell.common.Position
+import com.bargystvelp.logic.cell.common.Size
+import kotlin.random.Random
 
 data class Plant(
-    override val x: Int,
-    override val y: Int,
-    override val height: Height,
-) : Cell(
-    x = x,
-    y = y,
-    height = height
+    override val position: Position,
+) : Entity(
+    position = position,
+    size = Size(width =  8, height = 8),
+    color = PLANT
 ) {
-    override fun getColor(): Color {
-        return PLANT
-    }}
+    companion object {
+        private const val SPAWN_CHANCE = 0.00001 // 0.001% шанс
+
+        fun trySpawn(position: Position): Plant? {
+            return if (Random.nextDouble() < SPAWN_CHANCE) {
+                Plant(position)
+            } else {
+                null
+            }
+        }
+    }
+}

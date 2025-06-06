@@ -1,20 +1,22 @@
 package com.bargystvelp.logic.biome.common
 
 import com.bargystvelp.logic.cell.common.Cell
+import com.bargystvelp.logic.cell.common.Size
 
 abstract class Biome(
-    open val width: Int,
-    open val height: Int,
+    open val size: Size
 ) {
-    val cells: Array<Array<Cell>> by lazy { createBiome() }
+    val cells: Array<Array<Cell>> by lazy { create() }
 
     fun render(callback: (Cell) -> Unit) {
-        for (x in 0 until width) {
-            for (y in 0 until height) {
+        for (x in 0 until size.width) {
+            for (y in 0 until size.height) {
                 callback(cells[x][y])
             }
         }
     }
 
-    abstract fun createBiome(): Array<Array<Cell>>
+
+
+    protected abstract fun create(): Array<Array<Cell>>
 }

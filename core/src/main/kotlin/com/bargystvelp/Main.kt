@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.bargystvelp.logic.biome.common.Biome
 import com.bargystvelp.logic.biome.ecosystem.Ecosystem
+import com.bargystvelp.logic.cell.common.Size
 
 class Main : ApplicationAdapter() {
     private lateinit var shapeRenderer: ShapeRenderer
@@ -16,13 +17,13 @@ class Main : ApplicationAdapter() {
         Logger.info("")
 
         // Инициализация биома с размерами экрана
-        biome = Ecosystem(width = Gdx.graphics.width, height = Gdx.graphics.height)
+        biome = Ecosystem(size = Size(width = Gdx.graphics.width, height = Gdx.graphics.height))
 
         // Создание рендерера для отрисовки клеток
         shapeRenderer = ShapeRenderer()
 
         // Инициализация камеры с размерами мира
-        CameraHandler.init(width = biome.width.toFloat(), height = biome.height.toFloat())
+        CameraHandler.init(width = biome.size.width.toFloat(), height = biome.size.height.toFloat())
     }
 
     override fun render() {
@@ -40,8 +41,8 @@ class Main : ApplicationAdapter() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
 
         biome.render { cell ->
-            shapeRenderer.color = cell.getColor()
-            shapeRenderer.rect(cell.x.toFloat(), cell.y.toFloat(), 1f, 1f)
+            shapeRenderer.color = cell.entity.color
+            shapeRenderer.rect(cell.position.x.toFloat(), cell.position.y.toFloat(), 1f, 1f)
         }
 
         shapeRenderer.end()
