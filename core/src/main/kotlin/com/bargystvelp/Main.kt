@@ -41,7 +41,7 @@ class Main : ApplicationAdapter() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
 
         biome.render { cell ->
-            shapeRenderer.color = cell.entity.color
+            shapeRenderer.color = cell.color
             shapeRenderer.rect(cell.position.x.toFloat(), cell.position.y.toFloat(), 1f, 1f)
         }
 

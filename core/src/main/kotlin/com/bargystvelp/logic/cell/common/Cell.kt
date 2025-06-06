@@ -1,8 +1,8 @@
 package com.bargystvelp.logic.cell.common
 
-import com.bargystvelp.logic.cell.ecosystem.Void
+import com.badlogic.gdx.graphics.Color
 
-class Cell(
-    val position: Position,
-    val entity: Entity = Void(position)
+abstract class Cell(
+    open val position: Position,
+    open val color: Color
 )

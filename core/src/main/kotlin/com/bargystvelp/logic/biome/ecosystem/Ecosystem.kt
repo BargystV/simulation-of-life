@@ -11,13 +11,7 @@ data class Ecosystem(override val size: Size) : Biome(size = size) {
         return Array(size.width) { x ->
             Array(size.height) { y ->
                 val position = Position(x = x, y = y)
-                val plant = Plant.trySpawn(position = position)
-
-                if (plant != null) {
-                    Cell(position, plant)
-                } else {
-                    Cell(position)
-                }
+                Plant.trySpawn(position = position)
             }
         }
     }
