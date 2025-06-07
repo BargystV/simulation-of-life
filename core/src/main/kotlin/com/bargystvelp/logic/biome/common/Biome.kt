@@ -1,7 +1,6 @@
 package com.bargystvelp.logic.biome.common
 
 import com.bargystvelp.logic.cell.common.Cell
-import com.bargystvelp.logic.cell.common.Position
 import com.bargystvelp.logic.cell.common.Size
 
 abstract class Biome(
@@ -12,7 +11,7 @@ abstract class Biome(
     fun render(): Array<Array<Cell>> {
         for (x in 0 until size.width) {
             for (y in 0 until size.height) {
-                cells[x][y].entity.render(position = Position(x, y), cells)
+                cells[x][y].entity.render(position = cells[x][y].position, cells)
             }
         }
 
