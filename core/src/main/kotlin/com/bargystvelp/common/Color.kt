@@ -1,4 +1,4 @@
-package com.bargystvelp.constant
+package com.bargystvelp.common
 
 import com.badlogic.gdx.graphics.Color
 

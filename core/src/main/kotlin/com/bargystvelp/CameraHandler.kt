@@ -3,6 +3,7 @@ package com.bargystvelp
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.bargystvelp.common.Size
 
 class CameraHandler private constructor(
     val width: Float,
@@ -20,8 +21,8 @@ class CameraHandler private constructor(
         val instance: CameraHandler
             get() = _instance ?: error("CameraHandler is not initialized. Call init(width, height) first.")
 
-        fun init(width: Float, height: Float) {
-            _instance = CameraHandler(width, height)
+        fun init(windowSize: Size) {
+            _instance = CameraHandler(windowSize.width.toFloat(), windowSize.height.toFloat())
         }
     }
 

@@ -1,4 +1,4 @@
-package com.bargystvelp.constant
+package com.bargystvelp.common
 
 enum class Height(val value: Int) {
     HEIGHT_0(0),
