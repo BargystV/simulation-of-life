@@ -4,9 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.bargystvelp.component.Genome
-import com.bargystvelp.component.Position
-import com.bargystvelp.util.Logger
+import com.bargystvelp.logger.Logger
 
 class Main : ApplicationAdapter() {
     private lateinit var shapeRenderer: ShapeRenderer
@@ -46,12 +44,12 @@ class Main : ApplicationAdapter() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
 
         var entityCounter = 0
-        world.entityManager.forEachAlive { id ->
+        world.entityComponent.forEachAlive { id ->
             entityCounter++
-            shapeRenderer.color = world.genomeManager.getColor(id)
+            shapeRenderer.color = world.genomeComponent.getColor(id)
 
-            val x = world.positionManager.getX(id)
-            val y = world.positionManager.getY(id)
+            val x = world.positionComponent.getX(id)
+            val y = world.positionComponent.getY(id)
 
             shapeRenderer.rect(x.toFloat(), y.toFloat(), 1f, 1f)
         }

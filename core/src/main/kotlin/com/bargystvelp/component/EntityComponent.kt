@@ -1,6 +1,6 @@
-package com.bargystvelp
+package com.bargystvelp.component
 
-class EntityManager(private val capacity: Int) {
+class EntityComponent(private val capacity: Int): Component {
     private val freeIds  = IntArray(capacity) {
         capacity - 1 - it // оптимизация сдвига
     }

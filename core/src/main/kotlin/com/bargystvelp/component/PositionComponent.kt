@@ -1,8 +1,8 @@
-package com.bargystvelp
+package com.bargystvelp.component
 
-class PositionManager(maxEntities: Int) {
-    private val x = IntArray(maxEntities)
-    private val y = IntArray(maxEntities)
+class PositionComponent(maxEntities: Int): Component {
+    private val x = IntArray(maxEntities) { -1 }
+    private val y = IntArray(maxEntities) { -1 }
 
     fun set(id: Int, px: Int, py: Int) {
         x[id] = px;

@@ -1,10 +1,10 @@
 package com.bargystvelp.engine
 
-import com.bargystvelp.CMD_MOVE_DOWN
-import com.bargystvelp.CMD_MOVE_LEFT
-import com.bargystvelp.CMD_MOVE_RIGHT
-import com.bargystvelp.CMD_MOVE_UP
-import com.bargystvelp.CMD_WAIT
+import com.bargystvelp.component.CMD_MOVE_DOWN
+import com.bargystvelp.component.CMD_MOVE_LEFT
+import com.bargystvelp.component.CMD_MOVE_RIGHT
+import com.bargystvelp.component.CMD_MOVE_UP
+import com.bargystvelp.component.CMD_WAIT
 import com.bargystvelp.World
 
 object GenomeEngine : Engine() {
@@ -12,11 +12,11 @@ object GenomeEngine : Engine() {
         val width = world.size.width
         val height = world.size.height
 
-        world.entityManager.forEachAlive { id ->
-            var x = world.positionManager.getX(id)
-            var y = world.positionManager.getY(id)
+        world.entityComponent.forEachAlive { id ->
+            var x = world.positionComponent.getX(id)
+            var y = world.positionComponent.getY(id)
 
-            for (command in world.genomeManager.getCommands(id)) {
+            for (command in world.genomeComponent.getCommands(id)) {
                 when (command) {
                     CMD_MOVE_UP    -> y = wrap(y + 1, height)
                     CMD_MOVE_DOWN  -> y = wrap(y - 1, height)
@@ -26,7 +26,7 @@ object GenomeEngine : Engine() {
                 }
             }
 
-            world.positionManager.set(id, x, y)
+            world.positionComponent.set(id, x, y)
         }
     }
 

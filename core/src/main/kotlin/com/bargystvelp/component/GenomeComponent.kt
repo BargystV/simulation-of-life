@@ -1,10 +1,11 @@
-package com.bargystvelp
+package com.bargystvelp.component
 
 import com.bargystvelp.constant.Color
-import com.bargystvelp.util.Logger
-import kotlin.random.Random
+
+const val COMMAND_SIZE = 64
 
 // ==== COMMANDS ====
+const val CMD_EMPTY: Byte = -1
 const val CMD_MOVE_UP: Byte = 0
 const val CMD_MOVE_DOWN: Byte = 1
 const val CMD_MOVE_LEFT: Byte = 2
@@ -13,24 +14,9 @@ const val CMD_WAIT: Byte = 4
 
 val ALL_COMMANDS = byteArrayOf(CMD_MOVE_UP, CMD_MOVE_DOWN, CMD_MOVE_LEFT, CMD_MOVE_RIGHT, CMD_WAIT)
 
-fun ByteArray.shuffledCopy(random: Random = Random): ByteArray {
-    val copy = this.copyOf()
-    for (i in copy.lastIndex downTo 1) {
-        val j = random.nextInt(i + 1)
-        val tmp = copy[i]
-        copy[i] = copy[j]
-        copy[j] = tmp
-    }
-
-    Logger.info(copy.joinToString(", "))
-
-    return copy
-}
-
-
-class GenomeManager(capacity: Int) {
+class GenomeComponent(capacity: Int): Component {
     private val commands = Array(capacity) {
-        byteArrayOf()
+        ByteArray(COMMAND_SIZE) { CMD_EMPTY }
     }
     private val colors = Array(capacity) {
         Color.PHOTOSYNTHESIS
