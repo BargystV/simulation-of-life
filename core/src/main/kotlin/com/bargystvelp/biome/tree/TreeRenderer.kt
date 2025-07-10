@@ -11,6 +11,7 @@ import com.bargystvelp.CameraHandler
 import com.bargystvelp.common.Renderer
 import com.bargystvelp.common.Size
 import com.bargystvelp.common.times
+import com.bargystvelp.logger.Logger
 
 class TreeRenderer(
     windowSize: Size,
@@ -25,6 +26,10 @@ class TreeRenderer(
     private lateinit var gridTexture: Texture
 
     init {
+        Logger.info("windowSize: $windowSize")
+        Logger.info("biomeSize: $biomeSize")
+        Logger.info("cellSize: $cellSize")
+
         CameraHandler.init(windowSize)
         initGrid(biomeSize, cellSize)
     }

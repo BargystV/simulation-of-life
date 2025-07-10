@@ -21,26 +21,22 @@ import com.bargystvelp.logger.Logger
 import com.bargystvelp.logger.MeasureUtil
 
 class Main : ApplicationAdapter() {
-    private lateinit var windowSize: Size
     private lateinit var biome: Biome
 
     private var renderCount: Int = 0
 
     override fun create() {
-        windowSize = Size(width = Gdx.graphics.width, height = Gdx.graphics.height)
-        Logger.info("windowSize: $windowSize")
-
-        biome = ThreeBiome(windowSize)
+        biome = ThreeBiome(Size(width = Gdx.graphics.width, height = Gdx.graphics.height))
     }
 
     override fun render() {
-        Logger.info("${renderCount++}")
+//        Logger.info("${renderCount++}")
 
-        MeasureUtil.time("Tick") {
+//        MeasureUtil.time("Tick") {
             biome.tick(Gdx.graphics.deltaTime)
-        }
+//        }
 
-        MeasureUtil.time("Render") {
+//        MeasureUtil.time("Render") {
             biome.renderer.begin()
 
             biome.entityFactory.forEachAlive { id ->
@@ -52,7 +48,7 @@ class Main : ApplicationAdapter() {
             }
 
             biome.renderer.end()
-        }
+//        }
     }
 
 
