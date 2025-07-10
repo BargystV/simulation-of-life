@@ -2,12 +2,7 @@ package com.bargystvelp
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Pixmap
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.Input
 import com.bargystvelp.biome.tree.GENOME_COMPONENT_KEY
 import com.bargystvelp.biome.tree.POSITION_COMPONENT_KEY
 import com.bargystvelp.biome.tree.ThreeBiome
@@ -30,6 +25,9 @@ class Main : ApplicationAdapter() {
     }
 
     override fun render() {
+        // ► Отрисовываем ТОЛЬКО при «одном» нажатии пробела
+        if (!Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return
+
 //        Logger.info("${renderCount++}")
 
 //        MeasureUtil.time("Tick") {
