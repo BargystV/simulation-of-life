@@ -20,6 +20,8 @@ repositories {
 
 dependencies {
     api("com.badlogicgames.gdx:gdx:${Versions.gdx}")
+    implementation("com.badlogicgames.gdx:gdx-freetype:${Versions.gdx}")
+
     api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")

@@ -5,25 +5,33 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.bargystvelp.CameraHandler
 import com.bargystvelp.common.Renderer
 import com.bargystvelp.common.Size
 import com.bargystvelp.common.times
 import com.bargystvelp.logger.Logger
+import kotlin.math.min
 
 class TreeRenderer(
     windowSize: Size,
     biomeSize: Size,
     val cellSize: Size,
-): Renderer {
+) : Renderer {
 
-    private var spriteBatch = SpriteBatch()
-    private var shapeRenderer = ShapeRenderer()
+    companion object {
+        private const val X_OFFSET_FACTOR = 1.001f
+        private const val Y_OFFSET_FACTOR = 0.99f
+        private const val FONT_SIZE_SCALE = 0.4f
+    }
 
-    private lateinit var pixmap: Pixmap
-    private lateinit var gridTexture: Texture
+    private val spriteBatch = SpriteBatch()
+    private val font = createBitmapFont()
+
+    private var gridTexture: Texture = createGridTexture(biomeSize, cellSize)
+    private var cellsTexture: Texture = createCellsTexture()
 
     init {
         Logger.info("windowSize: $windowSize")
@@ -31,68 +39,109 @@ class TreeRenderer(
         Logger.info("cellSize: $cellSize")
 
         CameraHandler.init(windowSize)
-        initGrid(biomeSize, cellSize)
     }
 
     override fun begin() {
-        // Обработка ввода и обновление камеры
         CameraHandler.instance.handle()
-
-        shapeRenderer.projectionMatrix = CameraHandler.instance.combined
         spriteBatch.projectionMatrix = CameraHandler.instance.combined
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
+        spriteBatch.begin()
     }
 
     override fun draw(x: Int, y: Int, color: Color) {
-        shapeRenderer.color = color
-        shapeRenderer.rect(
-            (x.times(cellSize.width)).toFloat(),
-            (y.times(cellSize.height)).toFloat(),
+        spriteBatch.color = color
+        spriteBatch.draw(
+            cellsTexture,
+            x * cellSize.width.toFloat(),
+            y * cellSize.height.toFloat(),
             cellSize.width.toFloat(),
             cellSize.height.toFloat()
+        )
+
+        font.draw(
+            spriteBatch,
+            "x:$x \ny:$y",
+            x * (cellSize.width.toFloat() * X_OFFSET_FACTOR),
+            y * (cellSize.height.toFloat() * Y_OFFSET_FACTOR) + cellSize.height
         )
     }
 
     override fun end() {
-        shapeRenderer.end()
-
-        // drawGrid
-        spriteBatch.begin()
+        // Отрисовка сетки
+        spriteBatch.color = Color.DARK_GRAY
         spriteBatch.draw(gridTexture, 0f, 0f)
+
         spriteBatch.end()
     }
 
     override fun dispose() {
-        pixmap.dispose()
         gridTexture.dispose()
+        cellsTexture.dispose()
+        font.dispose()
         spriteBatch.dispose()
-
-        shapeRenderer.dispose()
     }
 
+    private fun createGridTexture(biomeSize: Size, cellSize: Size): Texture {
+        val windowSize = biomeSize.times(cellSize)
 
-    private fun initGrid(biomeSize: Size, cellSize: Size) {
-        val windowSize = biomeSize.times(cellSize) // Правильно умножать, а не брать исходный windowSize
-
-        pixmap = Pixmap(windowSize.width, windowSize.height, Pixmap.Format.RGBA8888)
+        val pixmap = Pixmap(windowSize.width, windowSize.height, Pixmap.Format.RGBA8888)
         pixmap.setColor(Color.DARK_GRAY)
 
         // Вертикальные линии
         for (x in 0..biomeSize.width) {
-            val px = x.times(cellSize.width)
+            val px = x * cellSize.width
             pixmap.drawLine(px, 0, px, windowSize.height)
         }
 
         // Горизонтальные линии
         for (y in 0..biomeSize.height) {
-            val py = y.times(cellSize.height)
+            val py = y * cellSize.height
             pixmap.drawLine(0, py, windowSize.width, py)
         }
 
-        gridTexture = Texture(pixmap)
+        val texture = Texture(pixmap)
+
+        pixmap.dispose()
+
+        return texture
+    }
+
+    private fun createCellsTexture(): Texture {
+        val pixmap = Pixmap(1, 1, Pixmap.Format.RGBA8888)
+        pixmap.setColor(Color.WHITE)
+        pixmap.fill()
+
+        val texture = Texture(pixmap)
+
+        pixmap.dispose()
+
+        return texture
+    }
+
+    //работает только на больших клетках
+    private fun createBitmapFont(): BitmapFont {
+        val generator = FreeTypeFontGenerator(Gdx.files.internal("RobotoMono-Regular.ttf"))
+        val parameter = FreeTypeFontGenerator.FreeTypeFontParameter().apply {
+            size = (min(cellSize.width, cellSize.height) * FONT_SIZE_SCALE).toInt()
+            color = Color.RED
+
+            // 👇 Ключевые настройки для чёткости
+            magFilter = Texture.TextureFilter.Nearest
+            minFilter = Texture.TextureFilter.Nearest
+            genMipMaps = false
+            borderWidth = 0f
+            kerning = false
+            hinting = FreeTypeFontGenerator.Hinting.None
+
+            characters = "0123456789:xy-," // если нужен только числовой текст
+        }
+
+        val font = generator.generateFont(parameter)
+        generator.dispose()
+
+        return font
     }
 }
