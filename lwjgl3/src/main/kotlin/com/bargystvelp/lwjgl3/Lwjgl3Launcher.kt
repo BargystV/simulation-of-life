@@ -28,7 +28,7 @@ object Lwjgl3Launcher {
                 useVsync(true)
                 setForegroundFPS(60)
                 setWindowedMode(displayMode.width, displayMode.height) // окно во весь экран
-                setDecorated(false) // убирает рамки окна
+                setDecorated(true) // рамки окна
                 setResizable(false)
             }
         }
