@@ -1,7 +1,7 @@
 package com.bargystvelp.common
 
 interface Component {
-    operator fun <T : Any> get(id: Int, key: AttrKey<T>): T
-    operator fun <T : Any> set(id: Int, key: AttrKey<T>, value: T)
+    operator fun <K, V : Any> set(type: AttrKey<K, V>, key: K, value: V)
+    operator fun <K, V : Any> get(type: AttrKey<K, V>, key: K): V
 }
 

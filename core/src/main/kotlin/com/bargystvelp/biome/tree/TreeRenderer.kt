@@ -28,9 +28,9 @@ class TreeRenderer(
     }
 
     private val spriteBatch = SpriteBatch()
-    private val font = createBitmapFont()
+//    private val font = createBitmapFont()
 
-    private var gridTexture: Texture = createGridTexture(biomeSize, cellSize)
+//    private var gridTexture: Texture = createGridTexture(biomeSize, cellSize)
     private var cellsTexture: Texture = createCellsTexture()
 
     init {
@@ -61,26 +61,26 @@ class TreeRenderer(
             cellSize.height.toFloat()
         )
 
-        font.draw(
-            spriteBatch,
-            "x:$x \ny:$y",
-            x * (cellSize.width.toFloat() * X_OFFSET_FACTOR),
-            y * (cellSize.height.toFloat() * Y_OFFSET_FACTOR) + cellSize.height
-        )
+//        font.draw(
+//            spriteBatch,
+//            "x:$x \ny:$y",
+//            x * (cellSize.width.toFloat() * X_OFFSET_FACTOR),
+//            y * (cellSize.height.toFloat() * Y_OFFSET_FACTOR) + cellSize.height
+//        )
     }
 
     override fun end() {
         // Отрисовка сетки
         spriteBatch.color = Color.DARK_GRAY
-        spriteBatch.draw(gridTexture, 0f, 0f)
+//        spriteBatch.draw(gridTexture, 0f, 0f)
 
         spriteBatch.end()
     }
 
     override fun dispose() {
-        gridTexture.dispose()
+//        gridTexture.dispose()
         cellsTexture.dispose()
-        font.dispose()
+//        font.dispose()
         spriteBatch.dispose()
     }
 

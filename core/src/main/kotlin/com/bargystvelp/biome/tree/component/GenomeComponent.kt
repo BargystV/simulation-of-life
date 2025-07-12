@@ -4,47 +4,56 @@ import com.badlogic.gdx.graphics.Color
 import com.bargystvelp.common.AttrKey
 import com.bargystvelp.common.Component
 
-const val COMMAND_SIZE = 64
+
+// ==== DIRECTIONS ====
+const val DIRECTIONS_SIZE: Int      = 4
+
+const val LEFT: Int                 = 0
+const val UP: Int                   = 1
+const val RIGHT: Int                = 2
+const val DOWN: Int                 = 3
+
+val EMPTY_DIRECTIONS: ByteArray = ByteArray(DIRECTIONS_SIZE) { COMMAND_EMPTY }
 
 // ==== COMMANDS ====
-const val CMD_EMPTY: Byte = -1
-const val CMD_MOVE_UP: Byte = 0
-const val CMD_MOVE_DOWN: Byte = 1
-const val CMD_MOVE_LEFT: Byte = 2
-const val CMD_MOVE_RIGHT: Byte = 3
-const val CMD_WAIT: Byte = 4
+const val COMMAND_SIZE: Int         = 64
+const val START_COMMAND: Byte       = 0
 
-val ALL_COMMANDS = byteArrayOf(CMD_MOVE_UP, CMD_MOVE_DOWN, CMD_MOVE_LEFT, CMD_MOVE_RIGHT, CMD_WAIT)
+const val COMMAND_EMPTY: Byte       = 100
+
+val EMPTY_COMMANDS: Array<ByteArray> = Array(COMMAND_SIZE) { EMPTY_DIRECTIONS }
+
 
 class GenomeComponent(capacity: Int): Component {
     companion object {
-        val COMMANDS = AttrKey<ByteArray>(0)
-        val COLOR    = AttrKey<Color>(1)
+        val COMMAND_NUMBER          = AttrKey<Int, Byte>(0)
+        val COMMANDS                = AttrKey<Int, Array<ByteArray>>(1)
+        val COLOR                   = AttrKey<Int, Color>(2)
     }
 
-    private val commands = Array(capacity) {
-        ByteArray(COMMAND_SIZE) { CMD_EMPTY }
-    }
-    private val colors = Array(capacity) {
-        com.bargystvelp.common.Color.PHOTOSYNTHESIS
-    }
+    private val seeds: ByteArray = ByteArray(capacity) { START_COMMAND }
+    private val commands: Array<Array<ByteArray>> = Array(capacity) { EMPTY_COMMANDS }
+    private val colors = Array(capacity) { com.bargystvelp.common.Color.BLACK }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : Any> get(id: Int, key: AttrKey<T>): T =
-        when (key) {
-            COMMANDS -> commands[id]    as T
-            COLOR    -> colors[id]      as T
-            else     -> error("bad key")
-        }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : Any> set(id: Int, key: AttrKey<T>, value: T) {
-        when (key) {
-            COMMANDS -> commands[id] = value as ByteArray
-            COLOR    -> colors[id] = value as Color
-            else     -> error("bad key")
+    override fun <K, V : Any> set(type: AttrKey<K, V>, key: K, value: V) {
+        when (type) {
+            COMMAND_NUMBER      -> seeds[key as Int] = value    as Byte
+            COMMANDS            -> commands[key as Int] = value as Array<ByteArray>
+            COLOR               -> colors[key as Int] = value   as Color
+
+            else                -> error("bad key")
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
+    override fun <K, V : Any> get(type: AttrKey<K, V>, key: K): V =
+        when (type) {
+            COMMAND_NUMBER      -> seeds[key as Int]        as V
+            COMMANDS            -> commands[key as Int]     as V
+            COLOR               -> colors[key as Int]       as V
 
+            else                -> error("bad key")
+        }
 }

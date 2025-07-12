@@ -1,19 +1,27 @@
 package com.bargystvelp.biome.tree
 
-import com.bargystvelp.biome.tree.component.ALL_COMMANDS
+import com.bargystvelp.biome.tree.component.COMMAND_EMPTY
+import com.bargystvelp.biome.tree.component.COMMAND_SIZE
+import com.bargystvelp.biome.tree.component.DIRECTIONS_SIZE
 import com.bargystvelp.biome.tree.component.GenomeComponent
 import com.bargystvelp.biome.tree.component.PositionComponent
-import com.bargystvelp.biome.tree.engine.GenomeEngine
+import com.bargystvelp.biome.tree.component.UP
+import com.bargystvelp.biome.tree.component.DOWN
+import com.bargystvelp.biome.tree.component.LEFT
+import com.bargystvelp.biome.tree.component.RIGHT
+import com.bargystvelp.biome.tree.component.START_COMMAND
+import com.bargystvelp.biome.tree.engine.GrowEngine
 import com.bargystvelp.biome.tree.entity.TreeEntityFactory
 import com.bargystvelp.common.*
-import com.bargystvelp.logger.Logger
 
 const val POSITION_COMPONENT_KEY = "POSITION"
 const val GENOME_COMPONENT_KEY = "GENOME"
 
 class ThreeBiome(
     windowSize: Size,
-    cellSize: Size = Size(width = 10, height = 10),
+//    cellSize: Size = Size(width = 100, height = 100),
+//    cellSize: Size = Size(width = 10, height = 10),
+    cellSize: Size = Size(width = 1, height = 1),
     biomeSize: Size = windowSize.div(cellSize),
 ) : Biome(
     windowSize = windowSize,
@@ -23,10 +31,10 @@ class ThreeBiome(
     private val capacity = biomeSize.height * biomeSize.width
 
     override val renderer: Renderer = TreeRenderer(windowSize, biomeSize, cellSize)
-    override val engines: List<Engine> = listOf(GenomeEngine)
+    override val engines: List<Engine> = listOf(GrowEngine)
     override val entityFactory: EntityFactory = TreeEntityFactory(capacity)
     override val components: Map<String, Component> = mapOf(
-        POSITION_COMPONENT_KEY to PositionComponent(capacity),
+        POSITION_COMPONENT_KEY to PositionComponent(width = biomeSize.width, height = biomeSize.height),
         GENOME_COMPONENT_KEY to GenomeComponent(capacity),
     )
 
@@ -34,11 +42,14 @@ class ThreeBiome(
         repeat(1) {
             val adam = entityFactory.create()
 
-            Logger.info("adam: $adam")
+            val positionComponent = components[POSITION_COMPONENT_KEY] ?: return@repeat
+            val genomeComponent = components[GENOME_COMPONENT_KEY] ?: return@repeat
 
-            components[POSITION_COMPONENT_KEY]?.set(adam, PositionComponent.X, biomeSize.width.div(2))
-            components[POSITION_COMPONENT_KEY]?.set(adam, PositionComponent.Y, biomeSize.height.div(2))
-            components[GENOME_COMPONENT_KEY]?.set(adam, GenomeComponent.COMMANDS, ALL_COMMANDS)
+            positionComponent[PositionComponent.ID_TO_POS, adam] = PositionComponent.pack(biomeSize.width.div(2), 0)
+
+            genomeComponent[GenomeComponent.COMMAND_NUMBER, adam] = START_COMMAND
+            genomeComponent[GenomeComponent.COMMANDS, adam] = createAdamCommands()
+            genomeComponent[GenomeComponent.COLOR, adam] = Color.WHITE
         }
     }
 
@@ -46,5 +57,64 @@ class ThreeBiome(
         engines.forEach { engine ->
             engine.tick(this, delta)
         }
+    }
+
+    override fun render(delta: Float) {
+        renderer.begin()
+
+        val genomeComponent = components[GENOME_COMPONENT_KEY] ?: return
+        val positionComponent = components[POSITION_COMPONENT_KEY] ?: return
+
+        entityFactory.forEachExist { id ->
+            val color = genomeComponent[GenomeComponent.COLOR, id]
+            val packed = positionComponent[PositionComponent.ID_TO_POS, id]
+
+            val x = PositionComponent.unpackX(packed)
+            val y = PositionComponent.unpackY(packed)
+
+
+            renderer.draw(x, y, color)
+        }
+
+        renderer.end()
+    }
+
+
+    private fun createAdamCommands(seed: Long = System.currentTimeMillis()): Array<ByteArray> {
+        val random = java.util.Random(seed)
+
+        val commands: Array<ByteArray> = Array(COMMAND_SIZE) {
+            ByteArray(DIRECTIONS_SIZE) { COMMAND_EMPTY }
+        }
+
+        for (cmd in 0 until COMMAND_SIZE) {
+            commands[cmd][LEFT] = random.nextInt(COMMAND_SIZE - 1).toByte()
+            commands[cmd][UP] = random.nextInt(COMMAND_SIZE - 1).toByte()
+            commands[cmd][RIGHT] = random.nextInt(COMMAND_SIZE - 1).toByte()
+            commands[cmd][DOWN] = random.nextInt(COMMAND_SIZE - 1).toByte()
+        }
+
+
+        // Заполняем первую команду корректно
+//        commands[START_COMMAND.toInt()][UP] = random.nextInt(COMMAND_SIZE - 1).toByte()
+//        commands[START_COMMAND.toInt()][DOWN] = COMMAND_EMPTY
+//        commands[START_COMMAND.toInt()][LEFT] = random.nextInt(COMMAND_SIZE - 1).toByte()
+//        commands[START_COMMAND.toInt()][RIGHT] = random.nextInt(COMMAND_SIZE - 1).toByte()
+//
+//        for (cmd in 1 until COMMAND_SIZE) {
+//            for (dir in 0 until DIRECTIONS_SIZE) {
+//                // 50% шанс на пустую команду
+//                commands[cmd][dir] = random.nextInt(COMMAND_SIZE - 1).toByte()
+//                    if (random.nextBoolean()) {
+//                    random.nextInt(COMMAND_SIZE - 1).toByte()
+//                } else {
+//                    COMMAND_EMPTY
+//                }
+//
+////                Logger.info("cmd: $cmd dir: $dir command: ${commands[cmd][dir]}")
+//            }
+//        }
+
+        return commands
     }
 }

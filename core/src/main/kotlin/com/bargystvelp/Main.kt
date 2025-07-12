@@ -10,8 +10,6 @@ import com.bargystvelp.biome.tree.component.GenomeComponent
 import com.bargystvelp.biome.tree.component.PositionComponent
 import com.bargystvelp.common.Biome
 import com.bargystvelp.common.Size
-import com.bargystvelp.common.div
-import com.bargystvelp.common.times
 import com.bargystvelp.logger.Logger
 import com.bargystvelp.logger.MeasureUtil
 
@@ -25,28 +23,17 @@ class Main : ApplicationAdapter() {
     }
 
     override fun render() {
-//        Logger.info("${renderCount++}")
+        Logger.info("${renderCount++}")
 
-//        MeasureUtil.time("Render") {
-            biome.renderer.begin()
-
-            biome.entityFactory.forEachAlive { id ->
-                val color = biome.components[GENOME_COMPONENT_KEY]?.get(id, GenomeComponent.COLOR) ?: return@forEachAlive
-                val x = biome.components[POSITION_COMPONENT_KEY]?.get(id, PositionComponent.X) ?: return@forEachAlive
-                val y = biome.components[POSITION_COMPONENT_KEY]?.get(id, PositionComponent.Y) ?: return@forEachAlive
-
-                biome.renderer.draw(x, y, color)
-            }
-
-            biome.renderer.end()
-//        }
-
+        MeasureUtil.time("Render") {
+            biome.render(Gdx.graphics.deltaTime)
+        }
 
         // ► Вычисляем ТОЛЬКО при «одном» нажатии пробела
-        if (!Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return
-//        MeasureUtil.time("Tick") {
-        biome.tick(Gdx.graphics.deltaTime)
-//        }
+//        if (!Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return
+        MeasureUtil.time("Tick") {
+            biome.tick(Gdx.graphics.deltaTime)
+        }
     }
 
 

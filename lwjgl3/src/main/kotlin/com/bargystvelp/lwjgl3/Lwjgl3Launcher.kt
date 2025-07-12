@@ -1,6 +1,5 @@
 package com.bargystvelp.lwjgl3
 
-import com.badlogic.gdx.Graphics
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window
@@ -9,8 +8,6 @@ import com.bargystvelp.Main
 import org.jetbrains.annotations.Contract
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.system.MemoryStack
-import java.awt.GraphicsEnvironment
-import java.awt.Toolkit
 
 /** Launches the desktop (LWJGL3) application.  */
 object Lwjgl3Launcher {

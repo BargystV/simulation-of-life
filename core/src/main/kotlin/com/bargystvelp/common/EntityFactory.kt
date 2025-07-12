@@ -8,5 +8,5 @@ interface EntityFactory {
     fun destroy(id: Int)
 
     /** Быстрый проход по живым сущностям. */
-    fun forEachAlive(block: (Int) -> Unit)
+    fun forEachExist(block: (Int) -> Unit)
 }

@@ -11,4 +11,5 @@ abstract class Biome(
     abstract val components: Map<String, Component>
 
     abstract fun tick(delta: Float)
+    abstract fun render(delta: Float)
 }
