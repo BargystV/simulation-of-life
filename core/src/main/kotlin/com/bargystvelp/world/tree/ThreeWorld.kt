@@ -14,8 +14,8 @@ import com.bargystvelp.world.tree.engine.GrowEngine
 import com.bargystvelp.world.tree.entity.TreeEntityFactory
 import com.bargystvelp.common.*
 import com.bargystvelp.logger.Logger
+import com.bargystvelp.util.Randomizer
 import com.bargystvelp.world.tree.command.CreateCommand
-import java.util.Random
 
 const val POSITION_COMPONENT_KEY = "POSITION"
 const val GENOME_COMPONENT_KEY = "GENOME"
@@ -75,24 +75,22 @@ class ThreeWorld(
     }
 
 
-    private fun createAdamCommands(seed: Long = System.currentTimeMillis()): Array<ByteArray> {
-        val random = Random(seed)
-
+    private fun createAdamCommands(): Array<ByteArray> {
         val commands: Array<ByteArray> = Array(COMMAND_SIZE) {
             ByteArray(DIRECTIONS_SIZE) { COMMAND_EMPTY }
         }
 
         // Заполняем первую команду корректно
-        commands[START_COMMAND.toInt()][UP] = random.nextInt(COMMAND_SIZE - 1).toByte()
+        commands[START_COMMAND.toInt()][UP] = Randomizer.get.nextInt(COMMAND_SIZE - 1).toByte()
         commands[START_COMMAND.toInt()][DOWN] = COMMAND_EMPTY
-        commands[START_COMMAND.toInt()][LEFT] = random.nextInt(COMMAND_SIZE - 1).toByte()
-        commands[START_COMMAND.toInt()][RIGHT] = random.nextInt(COMMAND_SIZE - 1).toByte()
+        commands[START_COMMAND.toInt()][LEFT] = Randomizer.get.nextInt(COMMAND_SIZE - 1).toByte()
+        commands[START_COMMAND.toInt()][RIGHT] = Randomizer.get.nextInt(COMMAND_SIZE - 1).toByte()
 
         for (cmd in 1 until COMMAND_SIZE) {
             for (dir in 0 until DIRECTIONS_SIZE) {
                 // 50% шанс на пустую команду
-                commands[cmd][dir] = if (random.nextBoolean()) {
-                    random.nextInt(COMMAND_SIZE - 1).toByte()
+                commands[cmd][dir] = if (Randomizer.get.nextBoolean()) {
+                    Randomizer.get.nextInt(COMMAND_SIZE - 1).toByte()
                 } else {
                     COMMAND_EMPTY
                 }

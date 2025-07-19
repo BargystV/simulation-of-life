@@ -6,6 +6,8 @@ import com.bargystvelp.world.tree.ThreeWorld
 import com.bargystvelp.common.World
 import com.bargystvelp.common.Size
 import com.bargystvelp.logger.Logger
+import com.bargystvelp.logger.MeasureUtil
+import com.bargystvelp.util.Randomizer
 
 class Main : ApplicationAdapter() {
     private lateinit var world: World
@@ -13,7 +15,10 @@ class Main : ApplicationAdapter() {
     private var renderCount: Int = 0
 
     override fun create() {
+        Randomizer.init()
+
         world = ThreeWorld(Size(width = Gdx.graphics.width, height = Gdx.graphics.height))
+
     }
 
     override fun render() {
