@@ -14,6 +14,7 @@ import com.bargystvelp.world.tree.engine.GrowEngine
 import com.bargystvelp.world.tree.entity.TreeEntityFactory
 import com.bargystvelp.common.*
 import com.bargystvelp.logger.Logger
+import com.bargystvelp.world.tree.command.CreateCommand
 import java.util.Random
 
 const val POSITION_COMPONENT_KEY = "POSITION"
@@ -40,16 +41,11 @@ class ThreeWorld(
 
     init {
         repeat(1) {
-            val adam = entityFactory.create()
-
-            val positionComponent = components[POSITION_COMPONENT_KEY] ?: return@repeat
-            val genomeComponent = components[GENOME_COMPONENT_KEY] ?: return@repeat
-
-            positionComponent[PositionComponent.ID_TO_POS, adam] = PositionComponent.pack(biomeSize.width.div(2), 0)
-
-            genomeComponent[GenomeComponent.COMMAND_NUMBER, adam] = START_COMMAND
-            genomeComponent[GenomeComponent.COMMANDS, adam] = createAdamCommands()
-            genomeComponent[GenomeComponent.COLOR, adam] = Color.WHITE
+            CreateCommand.execute(
+                world = this,
+                packedPosition = PositionComponent.pack(biomeSize.width.div(2), 0),
+                commands = createAdamCommands(),
+            )
         }
     }
 
@@ -71,7 +67,6 @@ class ThreeWorld(
 
             val x = PositionComponent.unpackX(packed)
             val y = PositionComponent.unpackY(packed)
-
 
             renderer.draw(x, y, color)
         }

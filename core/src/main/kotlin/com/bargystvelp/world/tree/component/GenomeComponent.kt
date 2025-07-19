@@ -26,7 +26,7 @@ val EMPTY_COMMANDS: Array<ByteArray> = Array(COMMAND_SIZE) { EMPTY_DIRECTIONS }
 
 class GenomeComponent(capacity: Int): Component {
     companion object {
-        val COMMAND_NUMBER          = AttrKey<Int, Byte>(0)
+        val SEED_COMMAND            = AttrKey<Int, Byte>(0)
         val COMMANDS                = AttrKey<Int, Array<ByteArray>>(1)
         val COLOR                   = AttrKey<Int, Color>(2)
     }
@@ -39,7 +39,7 @@ class GenomeComponent(capacity: Int): Component {
     @Suppress("UNCHECKED_CAST")
     override fun <K, V : Any> set(type: AttrKey<K, V>, key: K, value: V) {
         when (type) {
-            COMMAND_NUMBER      -> seeds[key as Int] = value    as Byte
+            SEED_COMMAND        -> seeds[key as Int] = value    as Byte
             COMMANDS            -> commands[key as Int] = value as Array<ByteArray>
             COLOR               -> colors[key as Int] = value   as Color
 
@@ -50,7 +50,7 @@ class GenomeComponent(capacity: Int): Component {
     @Suppress("UNCHECKED_CAST")
     override fun <K, V : Any> get(type: AttrKey<K, V>, key: K): V =
         when (type) {
-            COMMAND_NUMBER      -> seeds[key as Int]        as V
+            SEED_COMMAND      -> seeds[key as Int]        as V
             COMMANDS            -> commands[key as Int]     as V
             COLOR               -> colors[key as Int]       as V
 

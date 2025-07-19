@@ -6,6 +6,8 @@ import com.bargystvelp.common.World
 import com.bargystvelp.common.Color
 import com.bargystvelp.common.Component
 import com.bargystvelp.common.Engine
+import com.bargystvelp.world.tree.command.CreateCommand
+import com.bargystvelp.world.tree.command.GrowUpCommand
 import com.bargystvelp.world.tree.component.COMMAND_EMPTY
 import com.bargystvelp.world.tree.component.DOWN
 import com.bargystvelp.world.tree.component.EMPTY_COMMANDS
@@ -34,7 +36,7 @@ object GrowEngine : Engine() {
             val commands = genomeComponent[GenomeComponent.COMMANDS, id]
             if (commands === EMPTY_COMMANDS) return@forEachExist
 
-            val commandNumber = genomeComponent[GenomeComponent.COMMAND_NUMBER, id]
+            val commandNumber = genomeComponent[GenomeComponent.SEED_COMMAND, id]
             val directions = commands[commandNumber.toInt()]
             if (directions === EMPTY_DIRECTIONS) return@forEachExist
 
@@ -54,35 +56,26 @@ object GrowEngine : Engine() {
 
                     if (isOccupied(newX, newY, positionComponent)) return@forEachIndexed
 
-                    val child = world.entityFactory.create()
-//                    Logger.info("child: $child")
-
-                    positionComponent[PositionComponent.ID_TO_POS, child] = PositionComponent.pack(newX, newY)
-
-                    genomeComponent[GenomeComponent.COMMAND_NUMBER, child] = command
-                    genomeComponent[GenomeComponent.COMMANDS, child] = commands
-                    genomeComponent[GenomeComponent.COLOR, child] = Color.WHITE
+                    CreateCommand.execute(
+                        world = world,
+                        packedPosition = PositionComponent.pack(newX, newY),
+                        seedCommand = command,
+                        commands = commands
+                    )
 
                     growUp = true
                 }
             }
 
             if (growUp) {
-//                Logger.info("growUp")
-                genomeComponent[GenomeComponent.COMMAND_NUMBER, id] = COMMAND_EMPTY
-                genomeComponent[GenomeComponent.COMMANDS, id] = EMPTY_COMMANDS
-                genomeComponent[GenomeComponent.COLOR, id] = Color.PHOTOSYNTHESIS
+                GrowUpCommand.execute(world = world, id)
             }
         }
     }
 
 
     private fun isOccupied(x: Int, y: Int, positionComponent: Component): Boolean {
-        val packed = PositionComponent.pack(x, y)
-        val occupied = positionComponent[PositionComponent.POS_TO_ID, packed] != EMPTY_ID
-
-//        Logger.info("x:$x y:$y isOccupied:${occupied}")
-        return occupied
+        return positionComponent[PositionComponent.POS_TO_ID, PositionComponent.pack(x, y)] != EMPTY_ID
     }
 
     /** Обёртка 0‥size-1 (тор). */
