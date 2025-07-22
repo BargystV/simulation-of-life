@@ -88,13 +88,17 @@ class ThreeWorld(
 
         for (cmd in 1 until COMMAND_SIZE) {
             for (dir in 0 until DIRECTIONS_SIZE) {
-                // 50% шанс на пустую команду
-                commands[cmd][dir] = if (Randomizer.get.nextBoolean()) {
-                    Randomizer.get.nextInt(COMMAND_SIZE - 1).toByte()
-                } else {
+                val next = Randomizer.get.nextInt(COMMAND_EMPTY.toInt()).toByte()
+                commands[cmd][dir] = if (next > COMMAND_SIZE - 1) {
                     COMMAND_EMPTY
+                } else {
+                    next
                 }
+            }
+        }
 
+        for (cmd in 0 until COMMAND_SIZE) {
+            for (dir in 0 until DIRECTIONS_SIZE) {
                 Logger.info("cmd: $cmd dir: $dir command: ${commands[cmd][dir]}")
             }
         }

@@ -16,10 +16,10 @@ const val DOWN: Int                 = 3
 val EMPTY_DIRECTIONS: ByteArray = ByteArray(DIRECTIONS_SIZE) { COMMAND_EMPTY }
 
 // ==== COMMANDS ====
-const val COMMAND_SIZE: Int         = 64
+const val COMMAND_SIZE: Int         = 16
 const val START_COMMAND: Byte       = 0
 
-const val COMMAND_EMPTY: Byte       = 100
+const val COMMAND_EMPTY: Byte       = 30
 
 val EMPTY_COMMANDS: Array<ByteArray> = Array(COMMAND_SIZE) { EMPTY_DIRECTIONS }
 
