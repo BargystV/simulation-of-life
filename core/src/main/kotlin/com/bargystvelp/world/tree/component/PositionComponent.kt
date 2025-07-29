@@ -28,6 +28,9 @@ class PositionComponent(
         val ID_TO_POS_LIST = AttrKey<Int, IntArray>(0)
         /** packedPos → id */
         val POS_TO_ID      = AttrKey<Int, Int>(1)
+
+        fun isOccupied(x: Int, y: Int, positionComponent: Component): Boolean =
+            positionComponent[PositionComponent.POS_TO_ID, PositionUtils.pack(x, y)] != EMPTY_ID
     }
 
     /* ─────────── внутреннее хранилище ─────────── */

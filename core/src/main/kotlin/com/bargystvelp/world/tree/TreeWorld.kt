@@ -17,9 +17,12 @@ import com.bargystvelp.logger.Logger
 import com.bargystvelp.util.PositionUtils
 import com.bargystvelp.util.Randomizer
 import com.bargystvelp.world.tree.command.CreateCommand
+import com.bargystvelp.world.tree.component.EnergyComponent
+import com.bargystvelp.world.tree.engine.PhotosynthesisEngine
 
 const val POSITION_COMPONENT_KEY = "POSITION"
 const val GENOME_COMPONENT_KEY = "GENOME"
+const val ENERGY_COMPONENT_KEY = "ENERGY"
 
 class TreeWorld(
     windowSize: Size,
@@ -33,11 +36,12 @@ class TreeWorld(
     private val maxEntities = biomeSize.width * 3
 
     override val renderer: Renderer = TreeRenderer(windowSize, biomeSize, cellSize)
-    override val engines: List<Engine> = listOf(GrowEngine)
+    override val engines: List<Engine> = listOf(PhotosynthesisEngine, GrowEngine)
     override val entityFactory: EntityFactory = TreeEntityFactory(maxEntities = maxEntities)
     override val components: Map<String, Component> = mapOf(
         POSITION_COMPONENT_KEY to PositionComponent(maxEntities = maxEntities, width = biomeSize.width, height = biomeSize.height),
         GENOME_COMPONENT_KEY to GenomeComponent(maxEntities = maxEntities, width =  biomeSize.width, height = biomeSize.height),
+        ENERGY_COMPONENT_KEY to EnergyComponent(maxEntities = maxEntities),
     )
 
     init {

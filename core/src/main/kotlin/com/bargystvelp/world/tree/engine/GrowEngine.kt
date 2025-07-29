@@ -5,6 +5,7 @@ import com.bargystvelp.common.Engine
 import com.bargystvelp.common.World
 import com.bargystvelp.logger.Logger
 import com.bargystvelp.util.PositionUtils
+import com.bargystvelp.world.tree.ENERGY_COMPONENT_KEY
 import com.bargystvelp.world.tree.GENOME_COMPONENT_KEY
 import com.bargystvelp.world.tree.POSITION_COMPONENT_KEY
 import com.bargystvelp.world.tree.command.CreateCommand
@@ -24,10 +25,14 @@ object GrowEngine : Engine() {
     override fun tick(world: World, delta: Float) {
         val positionComponent = world.components[POSITION_COMPONENT_KEY] ?: return
         val genomeComponent = world.components[GENOME_COMPONENT_KEY] ?: return
+        val energyComponent = world.components[ENERGY_COMPONENT_KEY] ?: return
 
         world.entityFactory.forEachExist { id ->
             val commands = genomeComponent[GenomeComponent.COMMANDS, id]
             val positions = positionComponent[PositionComponent.ID_TO_POS_LIST, id]
+            val energy = energyComponent[EnergyComponent.ENERGY, id]
+
+            if (!EnergyComponent.hasEnoughEnergy(energy)) return@forEachExist
 
             for (packed in positions) {
                 val commandNumber = genomeComponent[GenomeComponent.SEED_COMMAND_AT_POS, packed]
@@ -48,7 +53,7 @@ object GrowEngine : Engine() {
                         val newX = wrap(x + dx, world.biomeSize.width)
                         val newY = clamp(y + dy, world.biomeSize.height)
 
-                        if (isOccupied(newX, newY, positionComponent)) return@forEachIndexed
+                        if (PositionComponent.isOccupied(newX, newY, positionComponent)) return@forEachIndexed
 
                         GrowCommand.execute(
                             world = world,
@@ -68,11 +73,6 @@ object GrowEngine : Engine() {
                 }
             }
         }
-    }
-
-
-    private fun isOccupied(x: Int, y: Int, positionComponent: Component): Boolean {
-        return positionComponent[PositionComponent.POS_TO_ID, PositionUtils.pack(x, y)] != EMPTY_ID
     }
 
     /** Обёртка 0‥size-1 (тор). */
