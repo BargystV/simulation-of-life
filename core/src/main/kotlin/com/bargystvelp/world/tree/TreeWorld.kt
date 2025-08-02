@@ -36,7 +36,7 @@ class TreeWorld(
     cellSize = cellSize,
     biomeSize = biomeSize,
 ) {
-    private val maxEntities = biomeSize.width * 3
+    private val maxEntities = biomeSize.width * 10
 
     override val renderer: Renderer = TreeRenderer(windowSize, biomeSize, cellSize)
     override val engines: List<Engine> = listOf(PhotosynthesisEngine, MortalEngine, GrowEngine)
@@ -63,10 +63,12 @@ class TreeWorld(
             engine.tick(this, delta)
         }
 
-        entityFactory.forEachExist { id ->
-            val energy = components[ENERGY_COMPONENT_KEY]?.get(EnergyComponent.ENERGY, id)
-            Logger.info("id: $id energy: $energy")
-        }
+//        Logger.info("maxEntities: $maxEntities")
+//
+//        entityFactory.forEachExist { id ->
+//            val energy = components[ENERGY_COMPONENT_KEY]?.get(EnergyComponent.ENERGY, id)
+//            Logger.info("id: $id energy: $energy")
+//        }
     }
 
     override fun render(delta: Float) {

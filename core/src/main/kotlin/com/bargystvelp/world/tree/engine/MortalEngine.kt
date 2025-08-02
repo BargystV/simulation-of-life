@@ -16,7 +16,7 @@ import kotlin.collections.forEach
 
 object MortalEngine : Engine() {
 
-    private const val WOOD_COST = 1
+    private const val WOOD_COST = 4
 
     override fun tick(world: World, delta: Float) {
         val positionComponent   = world.components[POSITION_COMPONENT_KEY]  ?: return

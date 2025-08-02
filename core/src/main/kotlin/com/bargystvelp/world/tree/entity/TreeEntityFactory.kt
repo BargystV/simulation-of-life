@@ -1,6 +1,7 @@
 package com.bargystvelp.world.tree.entity
 
 import com.bargystvelp.common.EntityFactory
+import com.bargystvelp.logger.Logger
 
 private const val FREE = -1
 private const val STATE_FREE: Byte = 0   // не используется
