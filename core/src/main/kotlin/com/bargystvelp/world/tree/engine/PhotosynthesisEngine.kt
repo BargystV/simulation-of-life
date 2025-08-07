@@ -6,7 +6,6 @@ import com.bargystvelp.util.PositionUtils
 import com.bargystvelp.world.tree.GENOME_COMPONENT_KEY
 import com.bargystvelp.world.tree.POSITION_COMPONENT_KEY
 import com.bargystvelp.world.tree.command.PhotosynthesisCommand
-import com.bargystvelp.world.tree.component.COMMAND_EMPTY
 import com.bargystvelp.world.tree.component.COMMAND_WOOD
 import com.bargystvelp.world.tree.component.EMPTY_ID
 import com.bargystvelp.world.tree.component.GenomeComponent

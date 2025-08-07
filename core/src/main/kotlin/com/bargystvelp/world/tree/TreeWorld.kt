@@ -19,6 +19,7 @@ import com.bargystvelp.util.Randomizer
 import com.bargystvelp.world.tree.command.CreateCommand
 import com.bargystvelp.world.tree.component.AgeComponent
 import com.bargystvelp.world.tree.component.EnergyComponent
+import com.bargystvelp.world.tree.engine.FallEngine
 import com.bargystvelp.world.tree.engine.PhotosynthesisEngine
 import com.bargystvelp.world.tree.engine.MortalEngine
 
@@ -36,10 +37,10 @@ class TreeWorld(
     cellSize = cellSize,
     biomeSize = biomeSize,
 ) {
-    private val maxEntities = biomeSize.width * 10
+    private val maxEntities = biomeSize.width * 100
 
     override val renderer: Renderer = TreeRenderer(windowSize, biomeSize, cellSize)
-    override val engines: List<Engine> = listOf(PhotosynthesisEngine, MortalEngine, GrowEngine)
+    override val engines: List<Engine> = listOf(PhotosynthesisEngine, MortalEngine, FallEngine, GrowEngine)
     override val entityFactory: EntityFactory = TreeEntityFactory(maxEntities = maxEntities)
     override val components: Map<String, Component> = mapOf(
         POSITION_COMPONENT_KEY to PositionComponent(maxEntities = maxEntities, width = biomeSize.width, height = biomeSize.height),
@@ -49,6 +50,8 @@ class TreeWorld(
     )
 
     init {
+        Logger.info("maxEntities: $maxEntities")
+
         repeat(1) {
             CreateCommand.execute(
                 world = this,
@@ -63,8 +66,6 @@ class TreeWorld(
             engine.tick(this, delta)
         }
 
-//        Logger.info("maxEntities: $maxEntities")
-//
 //        entityFactory.forEachExist { id ->
 //            val energy = components[ENERGY_COMPONENT_KEY]?.get(EnergyComponent.ENERGY, id)
 //            Logger.info("id: $id energy: $energy")
@@ -126,6 +127,8 @@ class TreeWorld(
             )
             Logger.info("cmd %02d: [%s ]".format(cmd, formatted))
         }
+
+
 
         return commands
     }

@@ -30,17 +30,19 @@ object GrowEngine : Engine() {
             val commands = genomeComponent[GenomeComponent.COMMANDS, id]
             val positions = positionComponent[PositionComponent.ID_TO_POS_LIST, id]
 
-            if (!EnergyComponent.hasEnoughEnergy(energyComponent[EnergyComponent.ENERGY, id])) return@forEachExist
+//            if (!EnergyComponent.hasEnoughEnergy(energyComponent[EnergyComponent.ENERGY, id])) return@forEachExist
 
             for (packed in positions) {
                 val commandNumber = genomeComponent[GenomeComponent.SEED_COMMAND_AT_POS, packed]
-                if (commandNumber == COMMAND_WOOD || commandNumber == COMMAND_FALL) return@forEachExist
+                if (commandNumber == COMMAND_WOOD || commandNumber == COMMAND_FALL || commandNumber == COMMAND_EMPTY) return@forEachExist
 
                 val directions = commands[commandNumber.toInt()]
                 if (directions === EMPTY_DIRECTIONS) {
                     SeedToWoodCommand.execute(world = world, packedPosition = packed)
                     return@forEachExist
                 }
+
+                if (!EnergyComponent.hasEnoughEnergy(directions, id, energyComponent)) return@forEachExist
 
                 val x = PositionUtils.unpackX(packed)
                 val y = PositionUtils.unpackY(packed)
@@ -55,7 +57,6 @@ object GrowEngine : Engine() {
                         val newY = clamp(y + dy, world.biomeSize.height)
 
                         if (PositionComponent.isOccupied(newX, newY, positionComponent)) return@forEachIndexed
-                        if (!EnergyComponent.hasEnoughEnergy(energyComponent[EnergyComponent.ENERGY, id])) return@forEachExist
 
                         GrowCommand.execute(
                             world = world,

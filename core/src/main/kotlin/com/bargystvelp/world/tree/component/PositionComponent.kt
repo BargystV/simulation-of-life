@@ -5,7 +5,7 @@ import com.bargystvelp.common.Component
 import com.bargystvelp.util.PositionUtils
 
 const val EMPTY_ID = -1
-private const val NO_POS = -1                     // sentinel for end-of-list
+const val NO_POS = -1                     // sentinel for end-of-list
 
 /**
  * id ↔︎ positions (multi-pos per tree) storage on pure primitives.

@@ -2,6 +2,8 @@ package com.bargystvelp.world.tree.command
 
 import com.badlogic.gdx.graphics.Color
 import com.bargystvelp.common.World
+import com.bargystvelp.logger.Logger
+import com.bargystvelp.util.PositionUtils
 import com.bargystvelp.world.tree.ENERGY_COMPONENT_KEY
 import com.bargystvelp.world.tree.GENOME_COMPONENT_KEY
 import com.bargystvelp.world.tree.POSITION_COMPONENT_KEY
@@ -29,5 +31,10 @@ object GrowCommand {
         genomeComponent[GenomeComponent.COLOR_AT_POS, packedPosition] = color
 
         energyComponent[EnergyComponent.ENERGY, id] = energyComponent[EnergyComponent.ENERGY, id] - ENERGY_TO_GROW
+
+        val x = PositionUtils.unpackX(packedPosition)
+        val y = PositionUtils.unpackY(packedPosition)
+
+        Logger.info("id: $id x: $x y: $y")
     }
 }

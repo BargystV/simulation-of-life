@@ -97,6 +97,7 @@ class TreeEntityFactory(private val maxEntities: Int) : EntityFactory {
             val nxt = next[id]                 // берём next ДО колбэка
             block(id)
             id = nxt
+            break
         }
     }
 
