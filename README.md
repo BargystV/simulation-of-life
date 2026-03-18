@@ -8,8 +8,8 @@
 
 ## Скриншоты
 
-![Симуляция 1](screenshots/img.png)
-![Симуляция 2](screenshots/img_1.png)
+![Симуляция 1](screenshots/img_2.png)
+![Симуляция 2](screenshots/img_3.png)
 
 ---
 
