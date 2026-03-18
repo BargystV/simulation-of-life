@@ -40,7 +40,7 @@ object GrowEngine : Engine() {
 
             for (packed in positions) {
                 val commandNumber = genomeComponent[GenomeComponent.SEED_COMMAND_AT_POS, packed]
-                if (commandNumber == COMMAND_WOOD || commandNumber == COMMAND_FALL || commandNumber == COMMAND_EMPTY) return@forEachExist
+                if (commandNumber == COMMAND_WOOD || commandNumber == COMMAND_FALL || commandNumber == COMMAND_EMPTY) continue
 
                 val directions = commands[commandNumber.toInt()]
                 if (directions === EMPTY_DIRECTIONS) {

@@ -118,11 +118,11 @@ class TreeWorld(
 
         for (cmd in 1 until COMMAND_SIZE) {
             for (dir in 0 until DIRECTIONS_SIZE) {
-                val next = Randomizer.get.nextInt(COMMAND_EMPTY.toInt()).toByte()
-                commands[cmd][dir] = if (next > COMMAND_SIZE - 1) {
-                    COMMAND_EMPTY
+                // ~25% шанс активного направления (вместо ~53%)
+                commands[cmd][dir] = if (Randomizer.get.nextInt(4) == 0) {
+                    Randomizer.get.nextInt(COMMAND_SIZE).toByte()
                 } else {
-                    next
+                    COMMAND_EMPTY
                 }
             }
         }
