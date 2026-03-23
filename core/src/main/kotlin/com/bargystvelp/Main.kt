@@ -19,6 +19,9 @@ class Main : ApplicationAdapter() {
 
     private var renderCount: Int = 0
 
+    /** Флаг паузы симуляции. При true тики не выполняются, рендер продолжается. */
+    private var paused: Boolean = false
+
     /** Создать мир и инициализировать рандомайзер. Вызывается LibGDX один раз при старте. */
     override fun create() {
 //        Randomizer.init(1773799528034)
@@ -29,16 +32,14 @@ class Main : ApplicationAdapter() {
 
     /** Основной цикл: рендер + тик симуляции каждый кадр. */
     override fun render() {
-//        Logger.info("${renderCount++}")
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) paused = !paused
 
 //        MeasureUtil.time("Render") {
             world.render(Gdx.graphics.deltaTime)
 //        }
 
-        // ► Вычисляем ТОЛЬКО при «одном» нажатии пробела
-//        if (!Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return
 //        MeasureUtil.time("Tick") {
-            world.tick(Gdx.graphics.deltaTime)
+            if (!paused) world.tick(Gdx.graphics.deltaTime)
 //        }
     }
 
